@@ -5,7 +5,7 @@ class X{
 
     public function __construct($a)
     {
-        var_dump($a);
+        dump($a);
     }
 
 }
