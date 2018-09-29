@@ -27,6 +27,14 @@ class Index{
         $rst = preg_match("/^1[34578]\d{9}$/", $mobile);
         dump($rst);
     }
+
+    /**
+     * 调用不存在方法
+     */
+    public function __call($name, $arguments)
+    {
+        throw new \Exception("访问的方法不存在");
+    }
 }
 
 
@@ -37,12 +45,13 @@ include "function.php";
 $test = new Index();
 
 // 获取方法参数和传递值
-$arr = explode("/",$_SERVER['DOCUMENT_URI']);
-$func = $arr[2];
-$argv = array_slice($arr,3);
+$arr = explode("/",$_SERVER['REQUEST_URI']);
+
 
 // 调用对应的方法
-if(isset($func)){
+if(isset($arr[2])){
+    $func = $arr[2];
+    $argv = array_slice($arr,3);
     $test->$func($argv);
 }else{
     die('参数不正确');

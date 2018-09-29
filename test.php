@@ -1,5 +1,295 @@
 <?php
 
+// 引入函数
+include 'function.php';
+
+/**解析serilize**/
+$data = unserialize('a:16:{s:2:"id";s:3:"240";s:9:"device_id";s:1:"2";s:8:"goods_id";s:1:"0";s:8:"order_id";s:3:"140";s:11:"data_number";s:8:"pgso_140";s:9:"data_type";s:1:"1";s:9:"countries";s:2:"27";s:10:"start_time";s:19:"2018-09-28 00:00:00";s:8:"end_time";s:19:"2018-09-28 23:59:59";s:3:"max";s:3:"500";s:5:"limit";s:3:"400";s:12:"created_time";s:19:"2018-09-28 13:28:45";s:6:"status";s:1:"0";s:13:"synced_status";s:1:"1";s:11:"synced_time";s:19:"0000-00-00 00:00:00";s:6:"source";s:1:"1";}');
+dd($data);
+
+$a = [] ? 1 : 0;
+echo $a;die;
+
+// 二维数组排序
+$array[] = array('id'=>1,'price'=>50);
+$array[] = array('id'=>2,'price'=>70);
+$array[] = array('id'=>3,'price'=>30);
+$array[] = array('id'=>4,'price'=>20);
+foreach ($array as $key=>$value){
+    $id[$key] = $value['id'];
+    $price[$key] = $value['price'];
+}
+array_multisort($price,SORT_NUMERIC,SORT_ASC,$array);
+echo '<pre>';
+print_r($array);
+echo '</pre>';
+die;
+
+
+$img = file_get_contents('http://dev.uibp.uroaming.cn/data/upload/image/macaroon_201809101331369556.jpeg',true);
+file_put_contents('bbb.png',$img);
+die;
+
+date_default_timezone_set("Etc/GMT-8");//这里比林威治标准时间快8小时
+//date_default_timezone_set('America/Los_Angeles');
+$script_tz = date_default_timezone_get();
+
+
+
+
+
+function StrCode($string, $salt ,$action = 'ENCODE') {
+    $action != 'ENCODE' && $string = base64_decode($string);
+    $code = '';
+    $key = substr(md5($salt), 12, 6);
+    $keyLen = strlen($key);
+    $strLen = strlen($string);
+    for ($i = 0; $i < $strLen; $i++) {
+        $k = $i % $keyLen;
+        $code .= $string[$i] ^ $key[$k];
+    }
+    return ($action != 'DECODE' ? base64_encode($code) : $code);
+}
+
+
+
+
+
+$salt1 = 'MacaroonWIFI';
+$salt2 = date('Y-m-d');
+$key = '123456789';
+var_dump($key);
+$key = strrev($key);
+var_dump($key);
+$sk1 = StrCode($key,$salt1);
+var_dump($sk1);
+$sk2 = StrCode($sk1,$salt2);
+var_dump($sk2);
+echo 'end~';
+
+
+$sk1 = StrCode($sk2,$salt2,'DECODE');
+var_dump($sk1);
+$key = StrCode($sk1,$salt1,'DECODE');
+var_dump($key);
+$key = strrev($key);
+var_dump($key);
+
+die;
+
+
+
+$timezone = 'UTC+08:00';
+
+
+$time = str_replace('UTC','',strtoupper($timezone));
+$ac = substr($time,0,1);
+$time = substr($time,1);
+list($hour,$min) = explode(':',$time);
+$hour = (int) $hour;
+$min = (int) $min;
+var_dump($min);die;
+
+echo strtotime('08:00');
+echo '<br>';
+echo strtotime('today');
+echo '<br>';
+echo 3600*8;
+die;
+
+$device_data = substr('1234567890',-7);
+var_dump($device_data);die;
+
+echo 24*60*60;
+die;
+$str = 'a:3:{s:6:"status";i:0;s:3:"msg";s:15:"参数不合法";s:10:"error_type";N;}';
+$arr = unserialize($str);
+var_dump($arr);
+die;
+
+//echo '1' . print(2) + 3;
+die;
+
+$bidrequest['imp'][] = ['banner'=>['w'=>300,'h'=>250,'pos'=>1]];
+$bidrequest['device'] = ['ua'=>'chrome','os'=>'macintosh','h'=>537,'w'=>931,'ifa'=>'xxxx-xxxx'];
+$bidrequest['ext'] = ['adslot_id'=>'12595','ssp_id'=>'8857939757'];
+
+$json = '{"imp":[{"banner":{"w":300,"h":250,"pos":1}}],"device":{"ua":"chrome","os":"macintosh","h":537,"w":931,"ifa":"xxxx-xxxx"},"ext":{"adslot_id":12595,"ssp_id":8857939757}}';
+echo $json;
+echo '<br>';
+echo json_encode($bidrequest);
+die;
+
+
+
+
+$msg1 = '租赁还机提醒#UE测试专用套餐Song 已完成使用#07-17 17:51';
+echo $msg1;
+
+$msg_arr = explode('#',$msg1);
+$longtime = array_pop($msg_arr);
+$time_arr = explode(' ',$longtime);
+$ymd_arr = explode('-',$time_arr[0]);
+if(0){ // 中文
+    $ymd_str = implode('/',$ymd_arr);
+}else{
+    $ymd_arr = array_reverse($ymd_arr);
+    $ymd_str = implode('/',$ymd_arr);
+}
+$time_finish = $ymd_str.' '.$time_arr[1];
+$time = str_replace($longtime,$time_finish,$msg1);
+var_dump($time);die;
+
+
+//$msg1 = '订单号：201803281154566625的设备取机成功！#套餐：韩国WiFi#2018-03-28 19:04:57';
+if(preg_match('/\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}/',$msg1,$m1)){
+    $msg1 = str_replace($m1[0],date('Y/m/d H:i',strtotime($m1[0])),$msg1);
+}elseif(preg_match('/\d{2}-\d{2}\s\d{2}:\d{2}/',$msg1,$m2)){
+    var_dump($m2);
+    var_dump($m2);die;
+    $msg2 = str_replace($m1[0],date('Y/m/d H:i',strtotime($m2[0])),$msg2);
+}
+var_dump($msg1);
+var_dump($msg2);die;
+
+$html = file_get_contents('http://www.webmasterhome.cn/huilv/forexGet.min.asp?amount=100&from=USD&to=CNY&t=0.971846959942994');
+var_dump($html);die;
+
+$n  =1.50;
+var_dump(sprintf("%.1f", $n));
+var_dump((string) floatval(sprintf("%.1f", $n)));
+die;
+
+$time = '07/31/2018 05:23:23';
+$arr = explode(' ',$time);
+var_dump($arr);die;
+list($d,$m,$y) = explode('/',$time);
+var_dump($d);
+var_dump($m);
+var_dump($y);
+die;
+
+echo date('Y-m-d',strtotime('07/31/2018'));
+echo date('Y-m-d',strtotime('2018/07/31'));
+die;
+
+$start_html = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="utf-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1"><link href="https://cdn.bootcss.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"><style type="text/css">
+      p {
+        width: 100%;
+        height: auto;
+        word-wrap:break-word;
+        word-break:break-all;
+        overflow: hidden;
+    }
+    </style></head><body><div class="container-fluid"><div class="row"><div class="col-xs-12">';
+$end_html = '</div></div></div></body></html>';
+echo $start_html.'123'.$end_html;
+die;
+
+ini_set('post_max_size','30M');
+
+echo ini_get("upload_max_filesize");
+echo ini_get("post_max_size");
+echo ini_get("memory_limit");
+echo ini_get("max_execution_time");
+die;
+
+$time1 = '2018-07-19 13:40:45';
+$time2 = '2018-07-19 13:50:58';
+
+var_dump($time2 < $time1);
+die;
+
+$orderRetaildata[] = ['id'=> 1];
+$orderRetaildata = array_column($orderRetaildata,'id');
+var_dump($orderRetaildata);die;
+
+$url = 'http://special.meirixue.com/2018goldvote/html/g';
+$opts['go_id'] = 394;
+$opts['action'] = 'votes';
+$ch = curl_init ();
+curl_setopt ( $ch, CURLOPT_URL, $url );
+curl_setopt ( $ch, CURLOPT_POST, 1 );
+curl_setopt ( $ch, CURLOPT_SSL_VERIFYPEER, false ); // 不验证证书
+curl_setopt ( $ch, CURLOPT_SSL_VERIFYHOST, false ); // 不验证HOST
+curl_setopt ( $ch, CURLOPT_SSLVERSION, 1 ); // http://php.net/manual/en/function.curl-setopt.php页面搜CURL_SSLVERSION_TLSv1
+curl_setopt ( $ch, CURLOPT_HTTPHEADER, array (
+    'Content-type:application/x-www-form-urlencoded;charset=UTF-8'
+) );
+curl_setopt ( $ch, CURLOPT_POSTFIELDS, $opts );
+curl_setopt ( $ch, CURLOPT_RETURNTRANSFER, true );
+$html = curl_exec ( $ch );
+
+var_dump($html);
+die;
+
+
+function my_sort1($a,$b)
+{
+    if ($a==$b) return 0;
+    return ($a<$b)?-1:1;
+}
+
+$a=array(4,2,8,6);
+usort($a,"my_sort1");
+print_r($a);
+die;
+
+$str = '{"gmt_create":"2018-07-12 19:59:34","charset":"UTF-8","seller_email":"youlin@uroaming.com.cn","subject":"\u8ba2\u5355:201807121535008113772 \u7eed\u79df 1\u5929","sign":"Vebqvx9vAjUsnHqlPEHxCIsioD1QNulR+zZE3UjEljt7xZ1rR8ph+se+Ak5grOogk7SC1x8LafZsiSOMF46S2eGYL\/iB1zNAODC\/83QR5mNDtYWYTZf3qe+NUMIBOnCKT\/fakbqJD+T5XClweLgtGFK4EIkkVilGsahF4refecoL\/ba5oKsS9vAyE9CfgT4wWCcT6s96Lv0DtedHefqxvLYO7b6nuJqRanftqOsQHfQX6ZkY8cuhzdzqHRPByrWuMijj3ylWH+l3u5jmRxpp+NLj+i84LmHIX+zVt+uVbbu8MBgbrammc1j3Hph2VGm4exC\/xcer+Vhx2ruozo7tIQ==","body":"\u8ba2\u5355:201807121535008113772 \u7eed\u79df 1\u5929","buyer_id":"2088502028141469","invoice_amount":"0.01","notify_id":"98abb969e96903f8cdeae3398a8291fjjx","fund_bill_list":"[{&quot;amount&quot;:&quot;0.01&quot;,&quot;fundChannel&quot;:&quot;ALIPAYACCOUNT&quot;}]","notify_type":"trade_status_sync","trade_status":"TRADE_SUCCESS","receipt_amount":"0.01","app_id":"2017081708241905","buyer_pay_amount":"0.01","sign_type":"RSA2","seller_id":"2088611029003905","gmt_payment":"2018-07-12 19:59:35","notify_time":"2018-07-12 19:59:35","version":"1.0","out_trade_no":"201807121535008113772relet65653","total_amount":"0.01","trade_no":"2018071221001004460518276258","auth_app_id":"2017081708241905","buyer_logon_id":"lim***@126.com","point_amount":"0.00"}';
+$arr = json_decode($str,true);
+var_dump($arr
+);die;
+
+
+$arr = ['id'=>100001169269154];
+var_dump($arr);
+$json = json_encode($arr);
+echo $json;
+//$arr = json_decode($json,true);
+$arr = json_decode($json,false,512,JSON_BIGINT_AS_STRING);
+var_dump($arr);die;
+die;
+
+
+echo date('Y-m-d',1*86400+strtotime('2018-07-11'));;die;
+
+echo strtotime("201807040930");
+echo 'asd';
+echo strtotime("20180704 09:30:00");
+    die;
+$unbund_code = "1231231";
+
+$html = <<<EMAIL
+            <html>
+                <head>
+                    <meta charset="utf-8" />
+                    <style type="text/css">*{ margin:0; padding:0;}</style>
+                </head>
+                <body>
+                    <div>
+                        <div style="font-size:14px; border-bottom:1px solid #292929;">
+                            <img src="http://static.img.vipwifi.com/statics/Web/images/macaroon_logo.png" width="40" height="40" style="float:left" />
+                            <span style=" float:left;display:inline-block; padding:20px 0 0 5px;">Macaroon MiFi</span>
+                            <div style="clear:both;"></div>
+                        </div>
+                        <div style="font-size:12px; line-height:20px; padding:10px;">
+                            [Macaroon MiFi],您正在进行Macaroon MiFi设备解绑操作<br />您的邮箱验证码为：<b>$unbund_code</b> 如果您暂时没有此需求，请忽略此邮件。
+                        </div>
+                    </div>
+                </body>
+            </html>
+EMAIL;
+
+echo $html;
+die;
+
+
+
+$a = '';
+if(!$a){
+    echo 1;
+}
+die;
 
 // json_encode 空数组强制转化为对象 中文字符不转换
 $arr = ['123','222'=>'464',['123','456','汉字']];
