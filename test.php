@@ -3,6 +3,32 @@
 // 引入函数
 include 'function.php';
 
+//file_put_contents('aaa','aaa');
+
+//$rst = \DateTime::createFromFormat( 'Y-m-d H:i:s', '2018-03-02' . ' 00:00:00' );
+//dd($rst);
+echo 'begin';
+sleep(60);
+echo 'end';
+exit();
+
+
+
+
+
+$str = '2018-09-012';
+
+dd(date('Y-m-d',strtotime($str)) == $str);
+$str = substr($str,0,strpos($str,' '));
+dd($str);
+
+$a = null;
+dd((string) $a);
+dd($a['ss']);
+dd(json_decode('dddd',true));
+
+
+
 /**解析serilize**/
 $data = unserialize('a:16:{s:2:"id";s:3:"240";s:9:"device_id";s:1:"2";s:8:"goods_id";s:1:"0";s:8:"order_id";s:3:"140";s:11:"data_number";s:8:"pgso_140";s:9:"data_type";s:1:"1";s:9:"countries";s:2:"27";s:10:"start_time";s:19:"2018-09-28 00:00:00";s:8:"end_time";s:19:"2018-09-28 23:59:59";s:3:"max";s:3:"500";s:5:"limit";s:3:"400";s:12:"created_time";s:19:"2018-09-28 13:28:45";s:6:"status";s:1:"0";s:13:"synced_status";s:1:"1";s:11:"synced_time";s:19:"0000-00-00 00:00:00";s:6:"source";s:1:"1";}');
 dd($data);
@@ -411,6 +437,7 @@ function QSort(array &$arr,$low,$high){
         QSort($arr,$pivot + 1,$high);  //对高子表进行递归排序
     }
 }
+
 
 function QuickSort(array &$arr){
     $low = 0;
