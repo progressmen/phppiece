@@ -37,7 +37,7 @@ echo 'http://mos.umacaroon.com/'.$dir_arr[$arr[2]].$arr[3].'.log '.' <a href="ja
 .'<br/>';
 //$a = @fileLastLines('http://mos.umacaroon.com/'.$dir_arr[$arr[2]].$arr[3].'.log',2000,'/^\[.+\]/');
 //$a = @fileLastLines('./log_contents',5000,'/^\[.+\]/');
-$a = @tail('./log_contents',1000, '/^\[.+\]/');
+$a = @tail('./log_contents',50, '/^\[.+\]/');
 //$a = file_get_contents('./log_contents');
 echo join('<br>',$a);
 echo "</body>";

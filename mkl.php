@@ -2,9 +2,10 @@
 
 include 'function.php';
 
-$accountId = 'bolan';
+//$accountId = 'bolan';
 //$accountId = 'baxi';
 //$accountId = 'macaroon';
+$accountId = 'JP-Freedata';
 switch ($accountId) {
     case 'bolan':
         $sign = '5EA7404608E801AC1921661BAD45C84C';
@@ -14,6 +15,9 @@ switch ($accountId) {
         break;
     case 'macaroon':
         $sign = '5EA7404608E801AC1921661BAD45C84C';
+        break;
+    case 'JP-Freedata':
+        $sign = 'AMS4TJ6ZGRNKXUIV98FW71HQBPEDC5YO';
         break;
 }
 
@@ -38,7 +42,7 @@ switch ($action) {
         break;
     case 'getCountryPackage':
         $bodyArr = [
-            'country_id' =>41,
+            'country_id' =>34,
             'language' => 1,
         ];
         break;
@@ -137,7 +141,7 @@ $request['header']['sign'] = md5(
     $sign
 );
 $data_string = json_encode($request);
-echo $data_string;die;
+//echo $data_string;die;
 $url = 'http://macaroon.com/Open/Index/index';
 
 // 初始化curl

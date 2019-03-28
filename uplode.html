@@ -1,0 +1,43 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link href="./webuploader/webuploader.css" rel="stylesheet" />
+    <script src="./webuploader/jquery-1.10.1.min.js"></script>
+    <script src="./webuploader/webuploader.js"></script>
+    <title>Document</title>
+</head>
+<body>
+    <h1>123</h1>
+    <span id="uploadImage"></span>
+</body>
+</html>
+<script>
+
+    var uploader = WebUploader.create({
+        //是否允许重复的图片
+        duplicate: true,
+        auto: false, // 选完文件后，是否自动上传
+        swf: '../JS/webuploader/Uploader.swf', // swf文件路径
+        server: "/upload.html", // 文件接收服务端
+        pick: { id: "#uploadImage", innerHTML: "本地上传图片" }, // 选择文件的按钮。可选
+        // 只允许选择图片文件。
+        accept: {
+            title: 'Images',
+            extensions: 'gif,jpg,jpeg,bmp,png',
+            mimeTypes: 'image/*'
+        },
+        //线程数
+        threads: 1,
+        //单个文件大小限制
+        fileSingleSizeLimit: 2000,
+        //上传文件数量限制
+        fileNumLimit:10,
+        //上传前不压缩
+        compress:false,
+    });
+
+</script>
